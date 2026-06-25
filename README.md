@@ -16,5 +16,5 @@ Instead of using pre-built tools like Wireshark or high-level libraries, I wante
 2. Run the engine: `sudo python3 sniffer.py`
 3. To test the detection alarm, run an Nmap scan against the machine in a separate terminal: `nmap localhost`
 
-## System Architecture Diagram
+
 
