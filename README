@@ -1,0 +1,17 @@
+# Custom Network Intrusion Detection System (NIDS)
+
+## What is this?
+A custom-built packet sniffer and intrusion detection engine written entirely in pure Python. It intercepts live network traffic at the system level and mathematically unpacks the packets to detect cyberattacks in real-time.
+
+## Why I built it
+Instead of using pre-built tools like Wireshark or high-level libraries, I wanted to understand network architecture from first principles. I built this to interact directly with the Operating System's networking stack and decode raw byte streams to truly understand how data moves across a network.
+
+## How it works under the hood
+* **Raw Sockets:** Bypasses standard OS routing to capture raw Ethernet frames directly from the Network Interface Card (NIC).
+* **Protocol Decoding:** Uses bitwise operations to mathematically unpack Layer 2 (Ethernet), Layer 3 (IPv4), and Layer 4 (TCP/ICMP) headers from raw hexadecimal data.
+* **Threat Detection Engine:** Tracks connection states in memory to identify anomalous behavior. It can successfully detect automated Port Scans (like Nmap) and trigger alerts in under a second.
+
+## How to run it
+1. This tool requires a Linux environment (or WSL) to access raw sockets.
+2. Run the engine: `sudo python3 sniffer.py`
+3. To test the detection alarm, run an Nmap scan against the machine in a separate terminal: `nmap localhost`
