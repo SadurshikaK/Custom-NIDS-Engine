@@ -18,26 +18,3 @@ Instead of using pre-built tools like Wireshark or high-level libraries, I wante
 
 ## System Architecture Diagram
 
-```mermaid
-flowchart TD
-    %% Styling
-    classDef capture fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
-    classDef decode fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
-    classDef threat fill:#fff3e0,stroke:#f57c00,stroke-width:2px;
-    classDef alert fill:#ffebee,stroke:#d32f2f,stroke-width:2px;
-
-    %% Nodes
-    Net((Live Network Traffic)) --> Socket[Raw Socket \n socket, struct, time]:::capture
-    
-    Socket -->|Raw Hex Bytes| Eth[Ethernet Layer Parser \n Extracts MAC Addresses]:::decode
-    Eth -->|Layer 2 Payload| IP[IPv4 Layer Parser \n Extracts Source/Dest IPs]:::decode
-    
-    IP -->|Protocol 1| ICMP[ICMP Parser]:::decode
-    IP -->|Protocol 6| TCP[TCP Parser \n Extracts Ports]:::decode
-    
-    TCP --> Engine{Threat Detection Engine \n Memory State Tracker}:::threat
-    Engine -->|Logs IP & Port History| Rule{Scan Rule \n > 5 ports in < 10s?}:::threat
-    
-    Rule -- YES --> Trigger[Terminal Output \n CRITICAL SECURITY ALERT]:::alert
-    Rule -- NO --> Pass[Passively Log to Terminal]
-    ICMP --> Pass
